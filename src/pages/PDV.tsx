@@ -157,9 +157,16 @@ const PDV = () => {
   // Mutation para criar pedido
   const createOrderMutation = useMutation({
     mutationFn: async (orderData: any) => {
+      // First, generate an order number
+      const { data: orderNumber, error: orderNumberError } = await supabase
+        .rpc('generate_order_number');
+
+      if (orderNumberError) throw orderNumberError;
+
       const { data: order, error: orderError } = await supabase
         .from('orders')
         .insert({
+          order_number: orderNumber,
           type: 'dine_in',
           subtotal: orderData.subtotal,
           total: orderData.total,
