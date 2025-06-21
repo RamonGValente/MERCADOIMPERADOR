@@ -50,6 +50,65 @@ export type Database = {
           },
         ]
       }
+      cash_sessions: {
+        Row: {
+          closed_at: string | null
+          closing_amount: number | null
+          created_at: string | null
+          id: string
+          notes: string | null
+          opened_at: string | null
+          opening_amount: number
+          status: string | null
+          total_card_sales: number | null
+          total_cash_sales: number | null
+          total_pix_sales: number | null
+          total_sales: number | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          closed_at?: string | null
+          closing_amount?: number | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          opened_at?: string | null
+          opening_amount?: number
+          status?: string | null
+          total_card_sales?: number | null
+          total_cash_sales?: number | null
+          total_pix_sales?: number | null
+          total_sales?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          closed_at?: string | null
+          closing_amount?: number | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          opened_at?: string | null
+          opening_amount?: number
+          status?: string | null
+          total_card_sales?: number | null
+          total_cash_sales?: number | null
+          total_pix_sales?: number | null
+          total_sales?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cash_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           created_at: string | null
@@ -406,6 +465,8 @@ export type Database = {
       }
       orders: {
         Row: {
+          cash_session_id: string | null
+          change_amount: number | null
           created_at: string | null
           customer_id: string | null
           delivery_address: string | null
@@ -417,6 +478,7 @@ export type Database = {
           order_number: string
           payment_method: string | null
           payment_status: string | null
+          received_amount: number | null
           status: string | null
           subtotal: number
           table_id: string | null
@@ -426,6 +488,8 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          cash_session_id?: string | null
+          change_amount?: number | null
           created_at?: string | null
           customer_id?: string | null
           delivery_address?: string | null
@@ -437,6 +501,7 @@ export type Database = {
           order_number: string
           payment_method?: string | null
           payment_status?: string | null
+          received_amount?: number | null
           status?: string | null
           subtotal?: number
           table_id?: string | null
@@ -446,6 +511,8 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          cash_session_id?: string | null
+          change_amount?: number | null
           created_at?: string | null
           customer_id?: string | null
           delivery_address?: string | null
@@ -457,6 +524,7 @@ export type Database = {
           order_number?: string
           payment_method?: string | null
           payment_status?: string | null
+          received_amount?: number | null
           status?: string | null
           subtotal?: number
           table_id?: string | null
@@ -466,6 +534,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "orders_cash_session_id_fkey"
+            columns: ["cash_session_id"]
+            isOneToOne: false
+            referencedRelation: "cash_sessions"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "orders_customer_id_fkey"
             columns: ["customer_id"]
@@ -811,7 +886,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_order_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

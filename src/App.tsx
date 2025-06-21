@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
+import PDV from "./pages/PDV";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,11 @@ const App = () => (
             <Route path="/products" element={
               <ProtectedRoute>
                 <Products />
+              </ProtectedRoute>
+            } />
+            <Route path="/pdv" element={
+              <ProtectedRoute>
+                <PDV />
               </ProtectedRoute>
             } />
             <Route path="*" element={<NotFound />} />
