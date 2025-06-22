@@ -40,6 +40,11 @@ const App = () => (
                 <PDV />
               </ProtectedRoute>
             } />
+            <Route path="/pos" element={
+              <ProtectedRoute>
+                <PDV />
+              </ProtectedRoute>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

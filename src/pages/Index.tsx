@@ -1,133 +1,117 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useNavigate } from 'react-router-dom';
 import { ShoppingCart, Package, Users, TrendingUp } from 'lucide-react';
 
 const Index = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate('/dashboard');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-orange-600"></div>
+      </div>
+    );
+  }
+
+  if (user) {
+    return null; // Will redirect to dashboard
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-4">
-              <ShoppingCart className="h-8 w-8 text-orange-600" />
-              <h1 className="text-2xl font-bold text-orange-600">Mercado Imperador</h1>
-            </div>
-            <Button onClick={() => navigate('/auth')}>
-              Acessar Sistema
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-orange-600 mb-4">
+              Mercado Imperador
+            </h1>
+            <p className="text-xl text-gray-600 mb-8">
+              Sistema completo de gestão para seu mercado
+            </p>
+            <Button 
+              onClick={() => navigate('/auth')} 
+              size="lg"
+              className="bg-orange-600 hover:bg-orange-700"
+            >
+              Fazer Login
             </Button>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Sistema de Gestão
-            <span className="block text-orange-600">Mercado Imperador</span>
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Solução completa para gerenciamento do seu estabelecimento. 
-            Controle vendas, estoque, clientes e muito mais em uma única plataforma.
+      {/* Features Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Funcionalidades do Sistema
+          </h2>
+          <p className="text-gray-600">
+            Tudo que você precisa para gerenciar seu mercado
           </p>
-          <Button 
-            size="lg" 
-            className="text-lg px-8 py-4"
-            onClick={() => navigate('/auth')}
-          >
-            Começar Agora
-          </Button>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          <Card className="text-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card>
             <CardHeader>
-              <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+              <div className="p-2 bg-green-100 rounded-lg w-fit">
                 <ShoppingCart className="h-6 w-6 text-green-600" />
               </div>
-              <CardTitle>Ponto de Venda</CardTitle>
-            </CardHeader>
-            <CardContent>
+              <CardTitle>PDV Completo</CardTitle>
               <CardDescription>
-                Sistema PDV completo para vendas rápidas e eficientes
+                Sistema de ponto de venda com gestão de caixa
               </CardDescription>
-            </CardContent>
+            </CardHeader>
           </Card>
 
-          <Card className="text-center">
+          <Card>
             <CardHeader>
-              <div className="mx-auto w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+              <div className="p-2 bg-blue-100 rounded-lg w-fit">
                 <Package className="h-6 w-6 text-blue-600" />
               </div>
-              <CardTitle>Gestão de Estoque</CardTitle>
-            </CardHeader>
-            <CardContent>
+              <CardTitle>Gestão de Produtos</CardTitle>
               <CardDescription>
-                Controle completo do seu inventário e movimentações
+                Controle completo do seu estoque e produtos
               </CardDescription>
-            </CardContent>
+            </CardHeader>
           </Card>
 
-          <Card className="text-center">
+          <Card>
             <CardHeader>
-              <div className="mx-auto w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+              <div className="p-2 bg-purple-100 rounded-lg w-fit">
                 <Users className="h-6 w-6 text-purple-600" />
               </div>
-              <CardTitle>Clientes</CardTitle>
-            </CardHeader>
-            <CardContent>
+              <CardTitle>Cadastro de Clientes</CardTitle>
               <CardDescription>
-                Cadastro e acompanhamento de clientes e vendas
+                Gerencie seus clientes e histórico de compras
               </CardDescription>
-            </CardContent>
+            </CardHeader>
           </Card>
 
-          <Card className="text-center">
+          <Card>
             <CardHeader>
-              <div className="mx-auto w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+              <div className="p-2 bg-orange-100 rounded-lg w-fit">
                 <TrendingUp className="h-6 w-6 text-orange-600" />
               </div>
               <CardTitle>Relatórios</CardTitle>
-            </CardHeader>
-            <CardContent>
               <CardDescription>
-                Acompanhe o desempenho do seu negócio em tempo real
+                Acompanhe vendas e performance do negócio
               </CardDescription>
-            </CardContent>
+            </CardHeader>
           </Card>
         </div>
-
-        {/* CTA Section */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Pronto para começar?
-          </h2>
-          <p className="text-gray-600 mb-6">
-            Cadastre-se agora e tenha acesso completo ao sistema de gestão
-          </p>
-          <Button 
-            size="lg" 
-            className="text-lg px-8 py-4"
-            onClick={() => navigate('/auth')}
-          >
-            Criar Conta Grátis
-          </Button>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>&copy; 2024 Mercado Imperador. Todos os direitos reservados.</p>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 };
